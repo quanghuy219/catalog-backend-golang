@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/quanghuy219/catalog-backend-golang/db"
 )
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -33,7 +34,11 @@ func main() {
 	}
 	r := gin.Default()
 
+	// Init middlewares
 	r.Use(CORSMiddleware())
+
+	// Init database connection
+	db.Init()
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
