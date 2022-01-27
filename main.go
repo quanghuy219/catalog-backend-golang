@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/quanghuy219/catalog-backend-golang/db"
+	"github.com/quanghuy219/catalog-backend-golang/router"
 )
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -40,10 +41,7 @@ func main() {
 	// Init database connection
 	db.Init()
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	router.Route(r)
+
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
