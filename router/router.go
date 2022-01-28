@@ -7,5 +7,8 @@ import (
 
 func Route(r *gin.Engine) {
 	healthCheck := new(controllers.HealthCheck)
+	authController := new(controllers.AuthenticationController)
 	r.GET("/ping", healthCheck.Ping)
+	r.POST("/login", authController.Login)
+	r.POST("/users", authController.Signup)
 }

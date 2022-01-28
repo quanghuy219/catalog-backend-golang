@@ -6,8 +6,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/quanghuy219/catalog-backend-golang/db"
+	"github.com/quanghuy219/catalog-backend-golang/database"
 	"github.com/quanghuy219/catalog-backend-golang/router"
+	"gorm.io/gorm"
 )
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -21,6 +22,13 @@ func CORSMiddleware() gin.HandlerFunc {
 			c.Next()
 		}
 	}
+}
+
+func DatabaseMiddleware(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+        c.Set("db", db)
+        c.Next()
+    }
 }
 
 func main() {
@@ -39,7 +47,8 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	// Init database connection
-	db.Init()
+	db := database.Init()
+	r.Use(DatabaseMiddleware(db))
 
 	router.Route(r)
 

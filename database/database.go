@@ -1,4 +1,4 @@
-package db
+package database
 
 import (
 	"os"
@@ -7,14 +7,13 @@ import (
 	"gorm.io/gorm"
 )
 
-var db *gorm.DB
-
 // Init database connection
-func Init() {
+func Init() *gorm.DB {
 	dsn := os.Getenv("DB_DSN")
-	var err error
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database")
 	}
+	return db
 }
