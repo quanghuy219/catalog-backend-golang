@@ -27,7 +27,7 @@ func (a AuthenticationController) Login(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
 	var user models.User
-	if result := db.Where(&models.User{Email: json.Email}).First(&user); result != nil {
+	if error := db.Where(&models.User{Email: json.Email}).First(&user).Error; error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Email or password is incorrect"})
 		return
 	}
