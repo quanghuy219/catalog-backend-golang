@@ -13,7 +13,7 @@ import (
 type AuthenticationController struct{}
 
 type Login struct {
-	Email string `json:"Email" validate:"email" binding:"required"`
+	Email    string `json:"Email" validate:"email" binding:"required"`
 	Password string `json:"Password" binding:"required"`
 }
 
@@ -40,7 +40,7 @@ func (a AuthenticationController) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Login successfully",
 		"data": gin.H{
-			"id": user.ID,
+			"id":   user.ID,
 			"name": user.Name,
 		},
 		"token": token,
@@ -48,10 +48,10 @@ func (a AuthenticationController) Login(c *gin.Context) {
 }
 
 type Signup struct {
-	Email string `json:"Email" validate:"email" binding:"required"`
-	Password string `json:"Password" validate:"regexp=^[A-Za-z0-9]{8,}$" binding:"required"`
+	Email             string `json:"Email" validate:"email" binding:"required"`
+	Password          string `json:"Password" validate:"regexp=^[A-Za-z0-9]{8,}$" binding:"required"`
 	ConfirmedPassword string `json:"confirmed_password" binding:"required"`
-	Name string `json:"Name" binding:"required"`
+	Name              string `json:"Name" binding:"required"`
 }
 
 func (a AuthenticationController) Signup(c *gin.Context) {
@@ -76,8 +76,8 @@ func (a AuthenticationController) Signup(c *gin.Context) {
 
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
 	user = models.User{
-		Email: json.Email,
-		Name: json.Name,
+		Email:        json.Email,
+		Name:         json.Name,
 		PasswordHash: string(hashedPassword),
 	}
 	db.Create(&user)
@@ -85,7 +85,7 @@ func (a AuthenticationController) Signup(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Signup successfully",
 		"data": gin.H{
-			"id": user.ID,
+			"id":   user.ID,
 			"name": user.Name,
 		},
 		"token": token,

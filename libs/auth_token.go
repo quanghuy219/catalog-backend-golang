@@ -13,14 +13,13 @@ import (
 func JwtEncode(u *models.User) string {
 	signingKey := []byte(os.Getenv("JWT_SECRET"))
 	claims := &jwt.StandardClaims{
-		Audience: strconv.Itoa(int(u.ID)),
+		Audience:  strconv.Itoa(int(u.ID)),
 		ExpiresAt: time.Now().Add(time.Hour * 3).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, _ := token.SignedString(signingKey)
 	return signedToken
 }
-
 
 func ParseJwtToken(tokenString string) (*jwt.Token, error) {
 	// Parse token

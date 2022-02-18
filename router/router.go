@@ -16,7 +16,7 @@ func Route(r *gin.Engine) {
 	r.POST("/users", authController.Signup)
 
 	r.GET("/categories", categoryController.GetAllCategories)
-	
+
 	authRoutes := r.Group("/", middlewares.JwtAuthMiddlewware())
 	authRoutes.POST("/categories", categoryController.CreateCategory)
 }
